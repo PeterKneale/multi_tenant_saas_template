@@ -16,8 +16,12 @@ global using Core.Domain;
 global using Core.Domain.Common;
 global using Core.Domain.Users;
 global using Core.IntegrationTests.Fixtures;
-global using FluentAssertions;
+global using AwesomeAssertions;
 global using MediatR;
 global using Microsoft.Extensions.DependencyInjection;
 global using Polly;
 global using Xunit.Abstractions;
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: ExcludeFromCodeCoverage]
+[assembly: AssemblyTrait("Type", "Integration")]

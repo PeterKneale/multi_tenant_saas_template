@@ -1,22 +1,28 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
+﻿ARG VERSION=1.0.0
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["src/Web/Web.csproj", "src/Web/"]
-COPY ["src/Core/Core.csproj", "src/Core/"]
-RUN dotnet restore "src/Web/Web.csproj"
+WORKDIR /work
+COPY *.sln ./
+COPY *.props ./
+COPY src/*/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p ./src/${file%.*}/ && mv $file ./src/${file%.*}/; done
+COPY tests/*/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p ./tests/${file%.*}/ && mv $file ./tests/${file%.*}/; done
+RUN dotnet restore
 COPY . .
-WORKDIR "/src/src/Web"
-RUN dotnet build "./Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build --no-restore -c Release
+
+FROM build AS tests
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+ARG VERSION
+WORKDIR /work/src/Web
+RUN dotnet publish "Web.csproj" -c Release -o /app/publish /p:Version=$VERSION
 
 FROM base AS final
 WORKDIR /app

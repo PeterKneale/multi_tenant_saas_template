@@ -2,7 +2,6 @@ Feature: Calculator
 
 Simple calculator for adding two numbers
 
-    @mytag
     Scenario: Add two numbers
         Given the first number is 50
         And the second number is 70

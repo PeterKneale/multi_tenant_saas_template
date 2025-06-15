@@ -1,8 +1,5 @@
 ﻿using Core.Application;
 using Core.Infrastructure.Behaviours;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using Moq;
 using Newtonsoft.Json;
 
 namespace Core.Infrastructure.UnitTests.Behaviours;

@@ -1,0 +1,11 @@
+services:
+
+  acceptance-tests:
+    container_name: acceptance-tests
+    build: 
+      context: .
+      dockerfile: ./tests/Web.AcceptanceTests/Dockerfile
+    environment:
+      - Logging:LogLevel:Default=Warning
+      - HEADLESS=true
+      - WEB_HOST=web

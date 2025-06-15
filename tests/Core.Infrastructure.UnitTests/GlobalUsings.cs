@@ -1,8 +1,7 @@
 // Global using directives
 
-global using Bogus;
-global using Core.Domain.Common;
-global using AwesomeAssertions;
+global using MediatR;
+global using Microsoft.Extensions.Logging;
 global using Moq;
 using System.Diagnostics.CodeAnalysis;
 

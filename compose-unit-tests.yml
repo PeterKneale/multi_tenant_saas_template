@@ -1,0 +1,18 @@
+services:
+
+  unit-tests:
+    container_name: unit-tests
+    build:
+      context: .
+      dockerfile: ./src/Web/Dockerfile
+      target: tests
+    environment:
+      - Logging:LogLevel:Default=Warning
+    entrypoint:
+      - dotnet
+      - test
+      - -c=Release
+      - --filter=Type=Unit
+      - --no-build
+      - --nologo
+      - --verbosity=normal

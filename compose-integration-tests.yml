@@ -1,0 +1,19 @@
+services:
+
+  integration-tests:
+    container_name: integration-tests
+    build: 
+      context: .
+      dockerfile: ./src/Web/Dockerfile
+      target: tests
+    environment:
+      - Logging:LogLevel:Default=Warning
+      - DB_HOST=db
+    entrypoint:
+      - dotnet
+      - test
+      - -c=Release
+      - --filter=Type=Integration
+      - --no-build
+      - --nologo
+      - --verbosity=normal

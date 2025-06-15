@@ -3,7 +3,7 @@
 global using System.Net;
 global using Core.Application.Contracts;
 global using Core.Domain.Common;
-global using FluentAssertions;
+global using AwesomeAssertions;
 global using MartinCostello.Logging.XUnit;
 global using MediatR;
 global using Microsoft.Extensions.DependencyInjection;
@@ -14,4 +14,4 @@ global using Xunit.Abstractions;
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: ExcludeFromCodeCoverage]
-[assembly: AssemblyTrait("Type", "IntegrationWeb")]
+[assembly: AssemblyTrait("Type", "Integration")]

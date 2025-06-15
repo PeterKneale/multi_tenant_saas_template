@@ -1,11 +1,4 @@
 ﻿services:
-  web:
-    image: web
-    build:
-      context: .
-      dockerfile: src/Web/Dockerfile
-
-
   db:
     image: postgres:alpine
     container_name: db
