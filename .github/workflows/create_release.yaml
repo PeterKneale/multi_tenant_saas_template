@@ -1,0 +1,98 @@
+name: create_release
+
+on:
+  workflow_dispatch:
+    inputs:
+      skipTests:
+        type: choice
+        description: 'Skip Tests'
+        options: [ 'true', 'false' ]
+        default: 'false'
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  create_release:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME_WEB: "web"
+      TAG_LATEST: latest
+      TAG_SHA: ${{ github.sha }}
+    permissions:
+      contents: write
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: 'false'
+
+      - name: Generate version number
+        id: tag_version
+        uses: anothrNick/github-tag-action@1.73.0
+
+      - name: Build and Run Tests in Docker
+        run: ./docker-run-tests.sh
+        if: github.event.inputs.skipTests != 'true'
+
+      - name: Build Docker Image - Web
+        env:
+          VERSION: ${{ steps.tag_version.outputs.tag }}
+        run: |
+          echo "Building Web with version: $VERSION"
+          docker build --build-arg VERSION=$VERSION -t $IMAGE_NAME_WEB -f src/Web/Dockerfile .
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_RELEASE_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_RELEASE_SECRET_KEY }}
+
+      - name: Login to Amazon Private ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        id: login-ecr
+
+      - name: Push web to Amazon Private ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: web
+          TAG_SEMVER: ${{ steps.tag_version.outputs.tag }}
+        run: |
+          docker tag $IMAGE_NAME_WEB $REGISTRY/$REPOSITORY:$TAG_LATEST
+          docker tag $IMAGE_NAME_WEB $REGISTRY/$REPOSITORY:$TAG_SEMVER
+          docker push $REGISTRY/$REPOSITORY:$TAG_LATEST
+          docker push $REGISTRY/$REPOSITORY:$TAG_SEMVER
+          echo "::notice ::$REGISTRY/$REPOSITORY:$TAG_SEMVER"
+
+      - name: Create github release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.tag }}
+          generateReleaseNotes: true
+
+      - name: Export logs
+        if: always()
+        run: |
+          docker compose -f docker-compose-unit.yml logs > docker-compose-unit-logs.log
+          docker compose -f docker-compose-integration-app.yml logs > docker-compose-integration-app-logs.log
+          docker compose -f docker-compose-integration-api.yml logs > docker-compose-integration-api-logs.log
+          docker compose -f docker-compose-integration-web.yml logs > docker-compose-integration-web-logs.log
+          docker compose -f docker-compose-acceptance.yml logs > docker-compose-acceptance-logs.log
+          docker compose -f docker-compose-endtoend.yml logs > docker-compose-endtoend-logs.log
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-compose-logs
+          path: docker-compose-*.log
+          retention-days: 30

@@ -1,0 +1,7 @@
+@page
+@model Registered
+@{
+    ViewBag.Title = "Registration";
+}
+
+@await Html.PartialAsync("Shared/_Alert", Alert.Info("Please check your email in order to verify your account"))

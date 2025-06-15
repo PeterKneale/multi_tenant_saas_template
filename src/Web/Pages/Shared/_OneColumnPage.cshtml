@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "_LayoutPage";
+}
+
+<div class="row">
+    <div class="col-12">
+        @await RenderSectionAsync("Primary", false)
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", false)
+}
+
+@section Head {
+    @await RenderSectionAsync("Head", false)
+}

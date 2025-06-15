@@ -1,0 +1,46 @@
+name: test_pull_request
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'deploy/**'
+      - '.github/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  test_pull_request:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: 'false'
+
+      - name: Build and Run Tests in Docker
+        run: ./docker-run-tests.sh
+
+      - name: Export logs
+        if: always()
+        run: |
+          docker compose -f docker-compose-unit.yml logs > docker-compose-unit-logs.log
+          docker compose -f docker-compose-integration-app.yml logs > docker-compose-integration-app-logs.log
+          docker compose -f docker-compose-integration-web.yml logs > docker-compose-integration-web-logs.log
+          docker compose -f docker-compose-acceptance.yml logs > docker-compose-acceptance-logs.log
+          docker compose -f docker-compose-endtoend.yml logs > docker-compose-endtoend-logs.log
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-compose-logs
+          path: docker-compose-*.log
+          retention-days: 30

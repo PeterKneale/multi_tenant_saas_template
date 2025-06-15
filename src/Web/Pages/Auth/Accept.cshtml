@@ -1,0 +1,22 @@
+﻿@page
+@model Accept
+@{
+    ViewBag.Title = "Accept Invitation";
+}
+
+<div asp-validation-summary="All"></div>
+
+<form method="post" class="card">
+    <div class="card-body">
+        @Html.EditorFor(x => x.FirstName, null, new { autofocus = "autofocus" })
+        @Html.EditorFor(x => x.LastName)
+        @Html.EditorFor(x => x.Email)
+        @Html.EditorFor(x => x.Password)
+        @Html.HiddenFor(x => x.InvitationId)
+    </div>
+    <div class="card-footer">
+        <div class="d-flex">
+            <input type="submit" value="Accept" class="btn btn-primary ms-auto" data-testid="AcceptButton"/>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,19 @@
+﻿@if (!ViewData.ModelState.IsValid)
+{
+    var messages = new List<string>();
+    foreach (var key in ViewData.ModelState.Keys)
+    {
+        foreach (var error in ViewData.ModelState[key].Errors)
+        {
+            messages.Add(error.ErrorMessage);
+        }
+    }
+
+    <div data-testid="alert" class="alert alert-danger" role="alert">
+        @foreach (var message in messages)
+        {
+            @message
+            <br/>
+        }
+    </div>
+}

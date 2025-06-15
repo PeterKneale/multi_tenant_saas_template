@@ -1,0 +1,156 @@
+@using global::Core.Domain.Users
+@inject IHttpContextAccessor Accessor;
+@{
+    var authenticated = User.Identity.IsAuthenticated;
+    var isAdmin = User.IsInRole(UserRole.AdminRoleName);
+    var root = authenticated ? isAdmin ? "/Admin" : "/Dashboard" : "/";
+}
+
+<header class="navbar navbar-expand-md navbar-light d-print-none">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a href="@root" class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+            <partial name="Shared/Icons/Logo"/>
+            <span>Site</span>
+        </a>
+
+        <div class="navbar-nav flex-row order-md-last">
+            @if (authenticated)
+            {
+                if (isAdmin)
+                {
+                    await LogoutLink();
+                }
+                else
+                {
+                    await UserMenu(isAdmin);
+                }
+            }
+            else
+            {
+                await ForgotPasswordLink();
+                await RegisterLink();
+                await LoginLink();
+                await HelpLink();
+            }
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-menu">
+            <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
+                <ul class="navbar-nav">
+                    @if (authenticated)
+                    {
+                        if (isAdmin)
+                        {
+                            await HomeLink(root);
+                        }
+                        else
+                        {
+                            await HomeLink(root);
+                            await HelpLinkWithLogo();
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+@functions{
+
+    private async Task HomeLink(string url)
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="@url">
+                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <partial name="Shared/Icons/Home"/>
+                </span>
+                <span class="nav-link-title">
+                    Home
+                </span>
+            </a>
+        </li>
+    }
+
+    private async Task HelpLinkWithLogo()
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Help">
+                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <partial name="Shared/Icons/Help"/>
+                </span>
+                <span class="nav-link-title">
+                    Help
+                </span>
+            </a>
+        </li>
+    }
+
+    private async Task LogoutLink()
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Auth/Logout">Logout</a>
+        </li>
+    }
+
+    private async Task LoginLink()
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Auth/Login" data-testid="PrimaryLoginLink">Login</a>
+        </li>
+    }
+
+    private async Task HelpLink()
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Help" data-testid="PrimaryHelpLink">Help</a>
+        </li>
+    }
+
+    private async Task RegisterLink()
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Auth/Register" data-testid="PrimaryRegistrationLink">Register</a>
+        </li>
+    }
+
+    private async Task ForgotPasswordLink()
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Auth/Forgot" data-testid="ForgotPasswordLink">Forgot Password</a>
+        </li>
+    }
+
+    private async Task UserMenu(bool isAdmin)
+    {
+        var user = Accessor.HttpContext.GetCurrentUser();
+        var organisation = Accessor.HttpContext.GetCurrentOrganisation();
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
+               aria-label="Open user menu" aria-expanded="false">
+                <div class="d-none d-xl-block ps-2">
+                    <div class="d-none d-xl-block ps-2">
+                        <div>@user.Name.FullName</div>
+                        <div class="mt-1 small text-muted">@organisation.Name.Title</div>
+                    </div>
+                </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <a class="dropdown-item" asp-page="/My/Profile/Index">My Profile</a>
+                <div class="dropdown-divider"></div>
+                @if (isAdmin)
+                {
+                    <a class="dropdown-item" asp-page="/Manage/Organisation/Index">Manage Organisation</a>
+                    <a class="dropdown-item" asp-page="/Manage/Users/Index">Manage Users</a>
+                    <a class="dropdown-item" asp-page="/Manage/Invitations/Index">Manage Invitations</a>
+                    <div class="dropdown-divider"></div>
+                }
+                <a class="dropdown-item" asp-page="/Auth/Logout">Logout</a>
+            </div>
+        </div>
+    }
+
+}

@@ -1,0 +1,40 @@
+﻿@page
+@model Login
+@{
+    Layout = "_TwoColumnPage";
+    ViewBag.Title = "Login";
+}
+
+@section Primary
+{
+    <partial name="_ValidationSummary"/>
+
+    <form method="post" class="card">
+        <div class="card-body">
+            @Html.EditorFor(x => x.Email, null, new { autofocus = "autofocus" })
+            @Html.EditorFor(x => x.Password)
+            @Html.HiddenFor(m => m.Name, new { data_testid = "Name" })
+        </div>
+        <div class="card-footer">
+            <div class="d-flex">
+                <input type="submit" value="Login" class="btn btn-primary ms-auto" data-testid="LoginButton"/>
+            </div>
+        </div>
+    </form>
+}
+
+@section Secondary
+{
+    @{
+        var title = "Login using your email address and password";
+        var body = "If you have forgotten your password you can reset it using the forgotten password link above.";
+        @await Html.PartialAsync("_Help", (title, body))
+    }
+    <div class="mt-2">
+        @{
+            var title2 = "Strong Passwords are important";
+            var body2 = "Always use a strong password to protect your account. Don't use the same password on multiple sites. ";
+            @await Html.PartialAsync("_Warn", (title2, body2))
+        }
+    </div>
+}

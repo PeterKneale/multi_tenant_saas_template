@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "_Layout";
+}
+<div class="page" data-testid="page-title" data-value="@ViewBag.Title">
+    <partial name="_Header"/>
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="container">
+                @await Html.PartialAsync("Shared/_Alerts")
+                @await Html.PartialAsync("Shared/_Impersonating")
+                @RenderBody()
+            </div>
+        </div>
+        <partial name="_Footer"/>
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", false)
+}
+
+@section Head {
+    @await RenderSectionAsync("Head", false)
+}

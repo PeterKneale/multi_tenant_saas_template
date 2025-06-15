@@ -1,0 +1,7 @@
+﻿@if (TempData.HasAlerts())
+{
+    foreach (var alert in TempData.GetAlerts())
+    {
+        @await Html.PartialAsync("Shared/_Alert", alert)
+    }
+}

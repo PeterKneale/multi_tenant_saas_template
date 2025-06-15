@@ -1,0 +1,15 @@
+﻿@inject IHttpContextAccessor Accessor;
+
+@if (Accessor.HttpContext.IsImpersonating())
+{
+    <div class="alert alert-important alert-info alert-dismissible" role="alert" data-testId="ImpersonatingAlert">
+        <div class="d-flex">
+            <div>
+                <partial name="Icons/InfoCircle"/>
+            </div>
+            <div>
+                Impersonating user: <strong>@Accessor.HttpContext.GetCurrentUser().Email</strong>
+            </div>
+        </div>
+    </div>
+}

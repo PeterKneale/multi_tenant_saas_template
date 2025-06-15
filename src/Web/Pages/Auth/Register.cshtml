@@ -1,0 +1,36 @@
+﻿@page
+@model RegisterPage
+@{
+    Layout = "_TwoColumnPage";
+    ViewBag.Title = "Register";
+}
+
+@section Primary
+{
+    <partial name="_ValidationSummary"/>
+
+    <form method="post" class="card">
+        <div class="card-body">
+            @Html.EditorFor(x => x.Organisation, null, new { autofocus = "autofocus" })
+            @Html.EditorFor(x => x.FirstName)
+            @Html.EditorFor(x => x.LastName)
+            @Html.EditorFor(x => x.Email)
+            @Html.EditorFor(x => x.Password)
+            @Html.HiddenFor(m => m.Name, new { data_testid = "Name" })
+        </div>
+        <div class="card-footer">
+            <div class="d-flex">
+                <input type="submit" value="Register" class="btn btn-primary ms-auto" data-testid="RegisterButton"/>
+            </div>
+        </div>
+    </form>
+}
+
+@section Secondary
+{
+    @{
+        var title = "Register an account for your organisation";
+        var body = "Once you register an account for your organisation you will be able to invite your colleagues to collaborate with you";
+        @await Html.PartialAsync("_Help", (title, body))
+    }
+}
