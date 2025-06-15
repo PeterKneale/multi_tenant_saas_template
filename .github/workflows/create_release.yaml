@@ -40,7 +40,7 @@ jobs:
         uses: anothrNick/github-tag-action@1.73.0
 
       - name: Build and Run Tests in Docker
-        run: ./docker-run-tests.sh
+        run: ./run-tests-in-docker.sh
         if: github.event.inputs.skipTests != 'true'
 
       - name: Build Docker Image - Web
@@ -83,12 +83,9 @@ jobs:
         if: always()
         run: |
           docker compose -f docker-compose-unit.yml logs > docker-compose-unit-logs.log
-          docker compose -f docker-compose-integration-app.yml logs > docker-compose-integration-app-logs.log
-          docker compose -f docker-compose-integration-api.yml logs > docker-compose-integration-api-logs.log
-          docker compose -f docker-compose-integration-web.yml logs > docker-compose-integration-web-logs.log
+          docker compose -f docker-compose-integration.yml logs > docker-compose-integration-logs.log
           docker compose -f docker-compose-acceptance.yml logs > docker-compose-acceptance-logs.log
-          docker compose -f docker-compose-endtoend.yml logs > docker-compose-endtoend-logs.log
-
+          
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
