@@ -17,6 +17,7 @@ public class ServiceFixture : IDisposable, ITestOutputHelperAccessor
     public ServiceFixture()
     {
         var configuration = new ConfigurationBuilder()
+//AddJsonFile("appsettings.json", false)
             .AddJsonFile("testsettings.json", false)
             .AddEnvironmentVariables()
             .Build();

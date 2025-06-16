@@ -68,9 +68,19 @@ public static class ServiceCollectionExtensions
                 .ScanIn(Assembly.GetExecutingAssembly()).For.Migrations());
 
         // emails
-        services.AddScoped<IEmailComposer, EmailComposer>();
-
-
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<EmailBuilder>();
+        services.AddScoped<EmailSender>();
+        
+        var emailBuilderOptions = configuration
+            .GetSection(EmailBuilderOptions.SectionName)
+            .Get<EmailBuilderOptions>() ?? throw new InvalidOperationException($"Configuration section '{EmailBuilderOptions.SectionName}' is missing or invalid.");
+        var emailSenderOptions = configuration
+            .GetSection(EmailSenderOptions.SectionName)
+            .Get<EmailSenderOptions>() ?? throw new InvalidOperationException($"Configuration section '{EmailSenderOptions.SectionName}' is missing or invalid.");
+        services.AddSingleton(emailBuilderOptions);
+        services.AddSingleton(emailSenderOptions);
+        
         // cache
         services.AddMemoryCache();
 

@@ -17,7 +17,7 @@ public static class SendVerifyEmailAddressEmail
         }
     }
 
-    public class Handler(IReadOnlyRepository<User> users, IEmailComposer emailSender)
+    public class Handler(IReadOnlyRepository<User> users, IEmailService emailSender)
         : IRequestHandler<Command>
     {
         public async Task Handle(Command notification, CancellationToken cancellationToken)

@@ -26,7 +26,7 @@ public static class SendInvitationEmail
         IReadOnlyRepository<User> users,
         IReadOnlyRepository<Organisation> organisations,
         IReadOnlyRepository<Invitation> invitations,
-        IEmailComposer emails) : IRequestHandler<Command>
+        IEmailService emails) : IRequestHandler<Command>
     {
         public async Task Handle(Command command, CancellationToken cancellationToken)
         {

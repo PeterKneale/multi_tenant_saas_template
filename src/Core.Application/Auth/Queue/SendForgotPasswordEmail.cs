@@ -17,7 +17,7 @@ public static class SendForgotPasswordEmail
         }
     }
 
-    public class Handler(IReadOnlyRepository<User> users, IEmailComposer sender) : IRequestHandler<Command>
+    public class Handler(IReadOnlyRepository<User> users, IEmailService sender) : IRequestHandler<Command>
     {
         public async Task Handle(Command notification, CancellationToken cancellationToken)
         {

@@ -4,7 +4,7 @@ using Core.Domain.Users;
 
 namespace Core.Application.Contracts;
 
-public interface IEmailComposer
+public interface IEmailService
 {
     Task SendVerifyEmailAddress(User user);
     Task SendForgotPassword(User user);

@@ -66,7 +66,11 @@ builder.Services
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
-if (builder.Environment.IsDevelopment()) builder.Services.AddTestingMiddleware();
+if (builder.Environment.IsDevelopment())
+{
+    // Using testing middleware
+    builder.Services.AddTestingMiddleware();
+}
 
 var app = builder.Build();
 
@@ -100,7 +104,6 @@ if (builder.Environment.IsDevelopment())
     log.LogInformation("⚠️ Using development middleware ⚠️");
     app.UseTestingMiddleware();
 }
-
 app.MapStaticAssets();
 app.MapRazorPages().RequireAuthorization().WithStaticAssets();
 app.MapHealthChecks("/health/alive", new HealthCheckOptions

@@ -5,5 +5,15 @@
       "System": "Information",
       "Microsoft": "Information"
     }
+  },
+  "EmailSender": {
+    "Enabled": "false"
+  },
+  "EmailBuilder": {
+    "ProductName": "Test Product",
+    "PublicUri": "http://localhost.com",
+    "HelpUrl": "/help",
+    "FromEmail": "NoReply@localhost.com",
+    "SupportEmail": "help@localhost.com"
   }
 }

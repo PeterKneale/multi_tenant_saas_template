@@ -16,9 +16,11 @@
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
         <PackageReference Include="MediatR"/>
         <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
         <PackageReference Include="Newtonsoft.Json"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
         <PackageReference Include="Polly"/>
+        <PackageReference Include="Postmark" />
     </ItemGroup>
 
     <ItemGroup>

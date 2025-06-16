@@ -8,4 +8,6 @@ public readonly record struct OrganisationId(Guid Value)
     {
         return new OrganisationId(value);
     }
+
+    public static OrganisationId Create() => Create(Guid.NewGuid());
 }
