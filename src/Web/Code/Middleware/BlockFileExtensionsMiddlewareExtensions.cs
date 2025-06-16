@@ -1,4 +1,4 @@
-﻿namespace Web.Core.Middleware;
+﻿namespace Web.Code.Middleware;
 
 public static class BlockFileExtensionsMiddlewareExtensions
 {

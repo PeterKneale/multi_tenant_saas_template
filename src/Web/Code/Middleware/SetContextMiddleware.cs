@@ -7,7 +7,7 @@ using Core.Domain.Users.Specifications;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace Web.Core.Middleware;
+namespace Web.Code.Middleware;
 
 public class SetContextMiddleware(RequestDelegate next)
 {

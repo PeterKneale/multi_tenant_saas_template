@@ -5,7 +5,7 @@ using Core.Domain.Organisations.Specifications;
 using Core.Domain.Users;
 using Core.Domain.Users.Specifications;
 
-namespace Web.Core.Middleware;
+namespace Web.Code.Middleware;
 
 public class SetApiContextMiddleware(RequestDelegate next)
 {

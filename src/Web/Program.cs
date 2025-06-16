@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Web.Code;
 using Web.Code.Authentication;
+using Web.Code.Middleware;
 using Web.Code.Middleware.Testing;
-using Web.Core.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
