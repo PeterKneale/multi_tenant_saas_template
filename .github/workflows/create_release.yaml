@@ -11,6 +11,7 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
+      - '*.md'
       - 'docs/**'
       - '.github/**'
 
@@ -42,10 +43,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
 
-      - name: Build and Run Tests in Docker
-        run: ./run-tests-in-docker.sh
-        if: github.event.inputs.skipTests != 'true'
-
       - name: Build Docker Image - Web
         env:
           VERSION: ${{ steps.tag_version.outputs.tag }}
@@ -53,28 +50,32 @@ jobs:
           echo "Building Web with version: $VERSION"
           docker build --build-arg VERSION=$VERSION -t $IMAGE_NAME_WEB -f src/Web/Dockerfile .
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ${{ vars.AWS_REGION }}
-          aws-access-key-id: ${{ secrets.AWS_RELEASE_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_RELEASE_SECRET_KEY }}
+      - name: Build and Run Tests in Docker
+        run: ./run-tests-in-docker.sh
+        if: github.event.inputs.skipTests != 'true'
 
-      - name: Login to Amazon Private ECR
-        uses: aws-actions/amazon-ecr-login@v2
-        id: login-ecr
-
-      - name: Push web to Amazon Private ECR
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: web
-          TAG_SEMVER: ${{ steps.tag_version.outputs.tag }}
-        run: |
-          docker tag $IMAGE_NAME_WEB $REGISTRY/$REPOSITORY:$TAG_LATEST
-          docker tag $IMAGE_NAME_WEB $REGISTRY/$REPOSITORY:$TAG_SEMVER
-          docker push $REGISTRY/$REPOSITORY:$TAG_LATEST
-          docker push $REGISTRY/$REPOSITORY:$TAG_SEMVER
-          echo "::notice ::$REGISTRY/$REPOSITORY:$TAG_SEMVER"
+#      - name: Configure AWS Credentials
+#        uses: aws-actions/configure-aws-credentials@v4
+#        with:
+#          aws-region: ${{ vars.AWS_REGION }}
+#          aws-access-key-id: ${{ secrets.AWS_RELEASE_ACCESS_KEY }}
+#          aws-secret-access-key: ${{ secrets.AWS_RELEASE_SECRET_KEY }}
+#
+#      - name: Login to Amazon Private ECR
+#        uses: aws-actions/amazon-ecr-login@v2
+#        id: login-ecr
+#
+#      - name: Push web to Amazon Private ECR
+#        env:
+#          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#          REPOSITORY: web
+#          TAG_SEMVER: ${{ steps.tag_version.outputs.tag }}
+#        run: |
+#          docker tag $IMAGE_NAME_WEB $REGISTRY/$REPOSITORY:$TAG_LATEST
+#          docker tag $IMAGE_NAME_WEB $REGISTRY/$REPOSITORY:$TAG_SEMVER
+#          docker push $REGISTRY/$REPOSITORY:$TAG_LATEST
+#          docker push $REGISTRY/$REPOSITORY:$TAG_SEMVER
+#          echo "::notice ::$REGISTRY/$REPOSITORY:$TAG_SEMVER"
 
       - name: Create github release
         uses: ncipollo/release-action@v1
