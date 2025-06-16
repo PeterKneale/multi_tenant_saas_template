@@ -1,0 +1,2 @@
+Hi,
+{{InviterUserName}} with {{InviterOrganisationName}} has invited you to use {{ ProductName }} to collaborate with them. Use the link below to accept their invitation and get started:

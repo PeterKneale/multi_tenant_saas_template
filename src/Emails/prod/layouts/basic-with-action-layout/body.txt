@@ -1,0 +1,7 @@
+{{ ProductName }} ({{ ProductUrl }})
+
+{{{ @content }}}
+
+{{ActionText}}: {{ActionUrl}}
+
+© 2024 {{ ProductName }}. All rights reserved.

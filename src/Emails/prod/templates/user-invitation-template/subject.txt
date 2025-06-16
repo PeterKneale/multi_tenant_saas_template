@@ -1,0 +1,1 @@
+{{InviterUserName}} invited you to use {{ ProductName}}
