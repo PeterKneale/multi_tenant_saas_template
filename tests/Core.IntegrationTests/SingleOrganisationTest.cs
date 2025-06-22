@@ -23,7 +23,7 @@ public abstract class SingleOrganisationTest(ServiceFixture service, ITestOutput
         return Task.CompletedTask;
     }
 
-    protected async Task CommandWithAdminContext(IRequest request)
+    protected async Task ExecuteInAdminContext(IRequest request)
     {
         await GetScope(AdminUserContext)
             .ServiceProvider

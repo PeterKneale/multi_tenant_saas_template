@@ -1,7 +1,9 @@
 using System.Reflection;
 using Core.Application.Contracts;
+using Core.Domain.Features.Contracts;
 using Core.Domain.Invitations.Contracts;
 using Core.Domain.Organisations.Contracts;
+using Core.Domain.Projects.Contracts;
 using Core.Domain.Users.Contracts;
 using Core.Infrastructure.Behaviours;
 using Core.Infrastructure.Database;
@@ -43,6 +45,8 @@ public static class ServiceCollectionExtensions
 
         // services
         services.AddScoped<IOrganisationNameCheck, OrganisationNameCheck>();
+        services.AddScoped<IProjectNameCheck, NameCheckService>(); 
+        services.AddScoped<IFeatureNameCheck, NameCheckService>();
         services.AddScoped<IInvitationEmailCheck, InvitationEmailCheck>();
         services.AddScoped<IUserContext, UserContext>();
         services.AddSingleton<IPasswordCheck, PasswordService>();

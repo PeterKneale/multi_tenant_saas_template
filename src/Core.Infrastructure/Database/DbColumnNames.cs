@@ -15,11 +15,13 @@ public static class DbColumnNames
     public const string NameColumn = "name";
     public const string Order = "order";
     public const string OrganisationIdColumn = "organisation_id";
+    public const string FeatureIdColumn = "feature_id";
     public const string Password = "password";
     public const string Role = "role";
     public const string Title = "title";
     public const string Type = "type";
     public const string UserIdColumn = "user_id";
+    public const string ProjectIdColumn = "project_id";
     public const string InvitationIdColumn = "invitation_id";
     public const string Value = "value";
     public const string Verified = "verified";

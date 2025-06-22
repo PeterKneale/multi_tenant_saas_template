@@ -6,4 +6,6 @@ public static class DbTableNames
     public const string Organisations = "organisations";
     public const string Settings = "settings";
     public const string Users = "users";
+    public const string Projects = "projects";
+    public const string Features = "features";
 }

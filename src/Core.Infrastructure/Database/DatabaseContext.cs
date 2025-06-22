@@ -1,6 +1,8 @@
 using Core.Application.Contracts;
+using Core.Domain.Features;
 using Core.Domain.Invitations;
 using Core.Domain.Organisations;
+using Core.Domain.Projects;
 using Core.Domain.Users;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 
@@ -12,6 +14,8 @@ public class DatabaseContext(ICurrentContext context, DbContextOptions<DatabaseC
     public DbSet<User> Users { get; init; } = null!;
     public DbSet<Organisation> Organisations { get; init; } = null!;
     public DbSet<Invitation> Invitations { get; init; } = null!;
+    public DbSet<Project> Projects { get; init; } = null!;
+    public DbSet<Feature> Features { get; init; } = null!;
     public DbSet<DataProtectionKey> DataProtectionKeys { get; init; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,5 +24,7 @@ public class DatabaseContext(ICurrentContext context, DbContextOptions<DatabaseC
         modelBuilder.Entity<Organisation>().HasQueryFilter(x => x.Id.Equals(context.OrganisationId));
         modelBuilder.Entity<User>().HasQueryFilter(x => x.OrganisationId.Equals(context.OrganisationId));
         modelBuilder.Entity<Invitation>().HasQueryFilter(x => x.OrganisationId.Equals(context.OrganisationId));
+        modelBuilder.Entity<Project>().HasQueryFilter(x => x.OrganisationId.Equals(context.OrganisationId));
+        modelBuilder.Entity<Feature>().HasQueryFilter(x => x.OrganisationId.Equals(context.OrganisationId));
     }
 }
