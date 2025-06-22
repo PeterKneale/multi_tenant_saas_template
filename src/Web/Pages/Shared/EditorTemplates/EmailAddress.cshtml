@@ -1,24 +1,46 @@
 ﻿@model string
+
 @{
-    var fieldName = ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix;
-    var parameters = new Dictionary<string, object>
+    var fieldName = ViewData.TemplateInfo.GetFullHtmlFieldName("");
+    var metadata = ViewData.ModelMetadata;
+
+    var labelClasses = "form-label";
+    if (metadata.IsRequired)
     {
-        { "class", "form-control" },
+        labelClasses += " required";
+    }
+
+    var id = TagBuilder.CreateSanitizedId(fieldName, "_");
+
+    var inputAttributes = new Dictionary<string, object>
+    {
         { "data-testid", fieldName },
-        { "type", "email" }
+        { "class", "form-control" },
+        { "type", "email" },
+        { "id", id }
     };
-    if (ViewContext.ViewData.Keys.Contains("autofocus"))
+    if (ViewData.ContainsKey("autofocus"))
     {
-        parameters.Add("autofocus", "autofocus");
+        inputAttributes["autofocus"] = "autofocus";
+    }
+
+    if (metadata.IsRequired)
+    {
+        inputAttributes["required"] = "required"; // HTML5 validation
+        inputAttributes["aria-required"] = "true"; // Screen reader support
     }
 }
+
 <div class="mb-3">
-    <label asp-for="@Model" class="form-label"></label>
+    <label for="@id" class="@labelClasses" data-testid="@fieldName-Label">
+        @metadata.GetDisplayName()
+    </label>
+
     <div class="input-group mb-2">
-        <span class="input-group-text">
-            @@
-        </span>
-        @Html.TextBoxFor(x => x, null, parameters)
-        <span asp-validation-for="@Model"></span>
+    <span class="input-group-text">
+        @@
+    </span>
+        @Html.TextBox("", Model, inputAttributes)
     </div>
+    @Html.ValidationMessage("", new { @class = "text-danger" })
 </div>

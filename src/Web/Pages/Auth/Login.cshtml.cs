@@ -40,7 +40,7 @@ public class Login(AdminAuthService adminAuth, UserAuthService userAuth, ILogger
         }
 
         var adminResult = await adminAuth.Authenticate(Email, Password);
-        if (adminResult.IsSuccessful) return Redirect(returnUrl ?? "/");
+        if (adminResult.IsSuccessful) return Redirect(returnUrl ?? "/admin");
 
         var userResult = await userAuth.Authenticate(Email, Password);
         if (userResult.IsSuccessful) return Redirect(returnUrl ?? "/");

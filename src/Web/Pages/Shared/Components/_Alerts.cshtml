@@ -2,6 +2,6 @@
 {
     foreach (var alert in TempData.GetAlerts())
     {
-        @await Html.PartialAsync("Shared/_Alert", alert)
+        @await Html.PartialAsync("_Alert.cshtml", alert)
     }
 }

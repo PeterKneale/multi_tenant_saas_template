@@ -30,11 +30,10 @@
         var body = "If you have forgotten your password you can reset it using the forgotten password link above.";
         @await Html.PartialAsync("_Help", (title, body))
     }
-    <div class="mt-2">
-        @{
-            var title2 = "Strong Passwords are important";
-            var body2 = "Always use a strong password to protect your account. Don't use the same password on multiple sites. ";
-            @await Html.PartialAsync("_Warn", (title2, body2))
-        }
-    </div>
+    <div class="mt-2"></div>
+    @{
+        var title2 = "Strong Passwords are important";
+        var body2 = "Always use a strong password to protect your account. Don't use the same password on multiple sites. ";
+        @await Html.PartialAsync("_Warn", (title2, body2))
+    }
 }

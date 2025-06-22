@@ -2,6 +2,7 @@ namespace Web.Code.Configuration;
 
 public class SiteOptions
 {
-    public string? AdminEmail { get; set; }
-    public string? AdminPassword { get; set; }
+    public const string SectionName = "Site";
+    public string? AdminEmail { get; init; }
+    public string? AdminPassword { get; init; }
 }

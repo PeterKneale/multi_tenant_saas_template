@@ -4,10 +4,12 @@ using Core.Domain.Users;
 using Core.Infrastructure;
 using Core.Infrastructure.Database;
 using Core.Infrastructure.Database.Migrations;
+using Core.Infrastructure.Emails;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Web.Code;
 using Web.Code.Authentication;
+using Web.Code.Configuration;
 using Web.Code.Middleware;
 using Web.Code.Middleware.Testing;
 
@@ -49,8 +51,7 @@ builder.Services
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(RoleConstants.IsAdmin, policy => policy.RequireRole(UserRole.AdminRoleName));
-    options.AddPolicy(RoleConstants.IsTenant,
-        policy => policy.RequireRole(UserRole.MemberRoleName, UserRole.OwnerRoleName));
+    options.AddPolicy(RoleConstants.IsTenant, policy => policy.RequireRole(UserRole.MemberRoleName, UserRole.OwnerRoleName));
 });
 
 builder.Services
@@ -62,6 +63,11 @@ builder.Services
 builder.Services
     .AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetDbConnectionString(), tags: new[] { "db" });
+
+var siteOptions = builder.Configuration
+    .GetSection(SiteOptions.SectionName)
+    .Get<SiteOptions>() ?? throw new InvalidOperationException($"Configuration section '{SiteOptions.SectionName}' is missing or invalid.");
+builder.Services.AddSingleton(siteOptions);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);

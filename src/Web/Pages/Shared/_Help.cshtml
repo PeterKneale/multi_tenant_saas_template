@@ -1,2 +1,9 @@
- 
+@model (string Title, string Body)
 
+<div class="card">
+    <div class="card-status-start bg-info"></div>
+    <div class="card-body">
+        <h3 class="card-title">@Model.Title</h3>
+        <p class="text-muted">@Model.Body</p>
+    </div>
+</div>

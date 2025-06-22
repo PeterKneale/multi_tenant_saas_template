@@ -20,4 +20,9 @@
         <ProjectReference Include="..\Core.Infrastructure\Core.Infrastructure.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\Shared\Components\_Alert.cshtml" />
+      <AdditionalFiles Include="Pages\Shared\Components\_Alerts.cshtml" />
+    </ItemGroup>
+
 </Project>

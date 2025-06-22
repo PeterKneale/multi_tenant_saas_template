@@ -1,5 +1,3 @@
-using Reqnroll;
-
 namespace Web.AcceptanceTests.StepDefinitions;
 
 [Binding]

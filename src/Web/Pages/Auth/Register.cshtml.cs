@@ -60,8 +60,8 @@ public class RegisterPage(IMediator mediator, ILogger<RegisterPage> logs) : Page
 
         try
         {
-            await mediator.Send(new Register.Command(Guid.NewGuid(), Organisation, Guid.NewGuid(), FirstName, LastName,
-                Email, Password));
+            await mediator.Send(new Register.Command(Guid.NewGuid(), Organisation, Guid.NewGuid(), FirstName, LastName, Email, Password));
+            TempData.AddAlert(Alert.Success("Please check your email in order to verify your account"));
             return RedirectToPage(nameof(Registered));
         }
         catch (BusinessRuleBrokenException e)
