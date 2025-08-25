@@ -19,7 +19,7 @@
     <PackageVersion Include="FluentMigrator.Runner.Postgres" Version="7.1.0" />
     <PackageVersion Include="FluentValidation" Version="12.0.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
-    <PackageVersion Include="JetBrains.Annotations" Version="2025.1.0-eap1" />
+    <PackageVersion Include="JetBrains.Annotations" Version="2025.2.0" />
     <PackageVersion Include="MartinCostello.Logging.XUnit" Version="0.6.0" />
     <PackageVersion Include="MediatR" Version="12.5.0" />
     <PackageVersion Include="MediatR.Contracts" Version="2.0.1" />
