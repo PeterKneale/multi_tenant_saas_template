@@ -40,7 +40,7 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-    <PackageVersion Include="Polly" Version="8.6.1" />
+    <PackageVersion Include="Polly" Version="8.6.3" />
     <PackageVersion Include="Postmark" Version="5.2.0" />
     <PackageVersion Include="Sentry.AspNetCore" Version="5.7.0" />
     <PackageVersion Include="Reqnroll.NUnit" Version="2.4.1" />
