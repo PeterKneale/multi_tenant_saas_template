@@ -43,9 +43,9 @@
     <PackageVersion Include="Polly" Version="8.6.3" />
     <PackageVersion Include="Postmark" Version="5.2.0" />
     <PackageVersion Include="Sentry.AspNetCore" Version="5.7.0" />
-    <PackageVersion Include="Reqnroll.NUnit" Version="2.4.1" />
+    <PackageVersion Include="Reqnroll.NUnit" Version="3.0.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <PackageVersion Include="nunit" Version="4.3.2" />
+    <PackageVersion Include="nunit" Version="4.4.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
   </ItemGroup>
