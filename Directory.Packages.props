@@ -11,7 +11,7 @@
     <PackageVersion Include="Ardalis.Specification" Version="9.2.0" />
     <PackageVersion Include="Ardalis.Specification.EntityFrameworkCore" Version="9.2.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
-    <PackageVersion Include="Bogus" Version="35.6.3" />
+    <PackageVersion Include="Bogus" Version="35.6.4" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageVersion Include="EFCore.NamingConventions" Version="9.0.0" />
     <PackageVersion Include="AwesomeAssertions" Version="9.0.0" />
